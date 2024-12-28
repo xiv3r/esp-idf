@@ -1,0 +1,22 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Sync fork
+        id: sync
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: "https://github.com/espressif/esp-idf" # Replace with upstream repo
+          source_branch: "main" # Replace with the branch you want to sync
+          destination_branch: "main" # Replace with your fork's branch
+          github_token: ${{ secrets.GITHUB_TOKEN }}
